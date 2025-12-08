@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terraform Composer UI</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: #f5f7fa; color: #333; margin: 0; padding: 0; line-height: 1.6; }
+        header { background: #2c3e50; color: white; padding: 25px 20px; text-align: center; }
+        .container { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h1, h2, h3, h4 { margin-top: 0; color: #2c3e50; }
+        .form-group { margin-bottom: 20px; }
+        input[type=text], input[type=password] { width: 100%; padding: 12px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; transition: border-color 0.3s; }
+        input[type=text]:focus, input[type=password]:focus { border-color: #3498db; outline: none; }
+        input[type=submit] { background: #2980b9; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background-color 0.3s; }
+        input[type=submit]:hover { background: #3498db; }
+        .result-box { margin-top: 30px; padding: 25px; background: #ecf0d1; border-left: 5px solid #2980b9; border-radius: 8px; }
+        .error { color: #e74c3c; font-weight: bold; }
+        .info-item { display: flex; align-items: baseline; margin-bottom: 15px; }
+        .info-label { font-weight: bold; margin-right: 15px; color: #2c3e50; flex-shrink: 0; }
+        .info-value { flex-grow: 1; }
+        ul.file-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+        ul.file-list li { background: #fff; padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        pre.code-block { background: #333; color: #fff; padding: 15px; border-radius: 8px; overflow-x: auto; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Terraform Composer UI</h1>
+    <p>Generate Terraform code effortlessly.</p>
+</header>
+
+<div class="container">
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <div class="form-group">
+            <input type="text" name="prompt" placeholder="e.g., Create a VPC with 2 public subnets in us-east-1" value="{{ prompt | default('', true) }}">
+        </div>
+        <div class="form-group">
+            <input type="text" name="git_url" placeholder="Git Repository URL (e.g., https://github.com/my-org/my-repo.git)" value="{{ git_url | default('', true) }}">
+        </div>
+        <div class="form-group">
+            <input type="text" name="git_username" placeholder="Git Username" value="{{ git_username | default('', true) }}">
+        </div>
+        <div class="form-group">
+            <input type="password" name="git_token" placeholder="Git Personal Access Token" value="{{ git_token | default('', true) }}">
+        </div>
+        <input type="submit" value="Generate">
+    </form>
+
+    {% if result %}
+    <div class="result-box">
+        {% if result.error %}
+            <p class="error">Error: {{ result.error }}</p>
+        {% else %}
+            {% if result.request_id %}
+                <div class="info-item">
+                    <span class="info-label">Request ID:</span>
+                    <span class="info-value">{{ result.request_id }}</span>
+                </div>
+            {% endif %}
+
+            {% if result.files %}
+                <div class="info-item">
+                    <span class="info-label">Files Generated:</span>
+                    <ul class="file-list">
+                        {% for f in result.files %}
+                            <li>{{ f }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if result.retrieved_modules %}
+                <h4>Retrieved Modules:</h4>
+                <pre class="code-block">{{ result.retrieved_modules | tojson(indent=2) }}</pre>
+            {% endif %}
+
+            {% if result.validation %}
+                <h4>Validation Report:</h4>
+                <pre class="code-block">{{ result.validation | tojson(indent=2) }}</pre>
+            {% endif %}
+
+            {% if pr_result %}
+            <div style="margin-top: 20px; padding: 15px; background: #dff0d8; border: 1px solid #d6e9c6; border-radius: 6px;">
+                <h4 style="color: #3c763d;">PR Status:</h4>
+                <p>{{ pr_result|safe }}</p>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

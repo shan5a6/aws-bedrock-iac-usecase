@@ -1,0 +1,18 @@
+# Exclude all .terraform directories anywhere in the repo
+**/.terraform/
+
+# Exclude Terraform state files at any depth
+**/*.tfstate
+**/*.tfstate.*
+
+# Optional: exclude crash logs
+**/crash.log
+**/crash.*.log
+
+# Optional: exclude Terraform variable override files
+**/*.tfvars.json
+
+# Optional: ignore local override files
+**/*_override.tf
+**/*_override.tf.json
+

@@ -1,0 +1,53 @@
+
+
+resource "aws_s3_bucket" "modules" {
+  bucket = "${local.name_prefix}-modules-private"
+  tags   = var.tags
+}
+
+resource "aws_s3_bucket_versioning" "modules" {
+  bucket = aws_s3_bucket.modules.id
+  versioning_configuration { status = "Enabled" }
+}
+resource "aws_s3_bucket_server_side_encryption_configuration" "modules" {
+  bucket = aws_s3_bucket.modules.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.s3.arn
+    }
+  }
+}
+resource "aws_s3_bucket" "artifacts" {
+  bucket = "${local.name_prefix}-artifacts"
+  tags   = var.tags
+}
+resource "aws_s3_bucket_versioning" "artifacts" {
+  bucket = aws_s3_bucket.artifacts.id
+  versioning_configuration { status = "Enabled" }
+}
+resource "aws_s3_bucket_server_side_encryption_configuration" "artifacts" {
+  bucket = aws_s3_bucket.artifacts.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.s3.arn
+    }
+  }
+}
+# Optional: block public access
+resource "aws_s3_bucket_public_access_block" "modules" {
+  bucket                  = aws_s3_bucket.modules.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+resource "aws_s3_bucket_public_access_block" "artifacts" {
+  bucket                  = aws_s3_bucket.artifacts.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+

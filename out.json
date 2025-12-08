@@ -1,0 +1,1 @@
+{"request_id": "65c5e24e-fc95-4bb2-9e45-a5ba4445736f", "files": ["main.tf", "variables.tf", "outputs.tf"], "retrieved_modules": ["vpc", "ec2", "ec2", "vpc", "vpc", "ec2"]}
