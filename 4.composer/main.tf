@@ -86,7 +86,7 @@ resource "aws_iam_policy" "compose" {
       {
         Sid    = "BedrockInvoke"
         Effect = "Allow"
-        Action = ["bedrock:InvokeModel","bedrock:InvokeModelWithResponseStream"]
+        Action = ["bedrock:*","aws-marketplace:ViewSubscriptions","aws-marketplace:Subscribe"]
         Resource = "*"
       },
       {
