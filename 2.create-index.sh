@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
  
-INDEX="iac-rag2-prod-vec" # replace with your index name
-ENDPOINT="https://ci43e8ojmvydyyjp3aag.us-east-1.aoss.amazonaws.com" # you have to replace with your AOSS url
+INDEX="iac-rag11-prod-vec" # replace with your index name
+ENDPOINT="https://dlaap8pnajzhwo4og5z3.us-east-1.aoss.amazonaws.com" # you have to replace with your AOSS url
 REGION="us-east-1"
  
 echo "🔍 Checking if index [$INDEX] exists..."

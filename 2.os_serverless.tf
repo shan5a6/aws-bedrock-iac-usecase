@@ -96,7 +96,7 @@ resource "aws_opensearchserverless_access_policy" "data" {
     Principal = [
       aws_iam_role.ingestion.arn,
       aws_iam_role.service.arn,
-      "arn:aws:iam::173148986443:user/bedrock-usecase-user"
+      "arn:aws:iam::067826607552:user/bedrock"
     ]
   }])
 }

@@ -12,7 +12,7 @@ bedrock = boto3.client("bedrock-runtime")
 s3 = boto3.client("s3")
 
 # Environment variables (set in Lambda console or SAM template)
-ARTIFACTS_BUCKET = os.environ.get("ARTIFACTS_BUCKET", "iac-rag2-prod-artifacts")
+ARTIFACTS_BUCKET = os.environ.get("ARTIFACTS_BUCKET", "iac-rag11-prod-artifacts")
 BEDROCK_MODEL_ID = os.environ.get(
     "BEDROCK_MODEL_ID",
     "anthropic.claude-3-5-sonnet-20240620-v1:0"
@@ -21,7 +21,7 @@ BEDROCK_MODEL_ID = os.environ.get(
 def call_retriever(ask: str, constraints: dict):
     """Invoke retriever lambda and return parsed response"""
     response = lambda_client.invoke(
-        FunctionName="iac-rag2-prod-retrieve-v2",
+        FunctionName="iac-rag11-prod-retrieve-v2",
         Payload=json.dumps({"ask": ask, "constraints": constraints})
     )
     payload = response["Payload"].read()
@@ -38,7 +38,7 @@ def call_retriever(ask: str, constraints: dict):
 
 def load_org_policy():
     """Load org policy JSON from SSM parameter store"""
-    param = ssm.get_parameter(Name="/iac-rag2-prod/org-policy", WithDecryption=True)
+    param = ssm.get_parameter(Name="/iac-rag11-prod/org-policy", WithDecryption=True)
     return json.loads(param["Parameter"]["Value"])
 
 

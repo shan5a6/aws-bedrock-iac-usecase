@@ -9,7 +9,7 @@ import shutil
 
 # ---------- Configuration ----------
 REGION = os.environ.get("AWS_REGION", "us-east-1")
-COMPOSER_FUNCTION = os.environ.get("COMPOSER_LAMBDA", "iac-rag2-prod-compose-v2")
+COMPOSER_FUNCTION = os.environ.get("COMPOSER_LAMBDA", "iac-rag11-prod-compose-v2")
 USE_BASIC_AUTH = os.environ.get("USE_BASIC_AUTH", "true").lower() == "true"
 SECRETS_MANAGER_ARN = os.environ.get("COMPOSER_CRED_SECRET", "terraform-composer-credential")
 
@@ -88,7 +88,7 @@ def call_composer(prompt):
         return {"error": f"Composer function error: {str(e)}"}
 
 # ---------- S3 and Git Configuration ----------
-S3_BUCKET = os.environ.get("S3_BUCKET", "iac-rag2-prod-artifacts")
+S3_BUCKET = os.environ.get("S3_BUCKET", "iac-rag11-prod-artifacts")
 REPO_CLONE_DIR = "/tmp/repo"
 
 # ---------- Git Operations Function (Enhanced) ----------

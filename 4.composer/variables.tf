@@ -11,7 +11,7 @@ variable "core_region" {
 variable "project" {
     description = "Project name"
     type        = string
-    default     = "iac-rag2"
+    default     = "iac-rag11"
 }
 
 variable "env" {
@@ -25,7 +25,7 @@ variable "tags" {
     type        = map(string)
     default = {
         Owner   = "platform-ai-devops"
-        Project = "iac-rag2"
+        Project = "iac-rag11"
         Env     = "prod"
     }
 }
